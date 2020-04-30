@@ -1,0 +1,43 @@
+﻿@model DashboardViewModel
+@{
+    ViewBag.Title = "Dashboard";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3 col-6">
+
+            @SmallBox(Model.CategoryCount.ToString(), "Categories", Url.Action("Index", "Categories"), "bg-info", "ion ion-stats-bars")
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small card -->
+            @SmallBox(Model.PostCount.ToString(), "Posts", Url.Action("Index","Posts"), "bg-success", "ion ion-stats-bars")
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small card -->
+            @SmallBox(Model.UserCount.ToString(), "Users", "#", "bg-warning", "fas fa-users")
+        </div>
+        <div class="col-lg-3 col-6">
+            <!-- small card -->
+            @SmallBox(Model.AdminCount.ToString(), "Admins", "#", "bg-danger", "fas fa-user-secret")
+        </div>
+        <!-- ./col -->
+    </div>
+</div>
+
+@helper SmallBox(string title,string description, string link,string boxClass, string iconClass)
+{
+    <div class="small-box @boxClass">
+        <div class="inner">
+            <h3>@title</h3>
+            <p>@description</p>
+        </div>
+        <div class="icon">
+            <i class="@iconClass"></i>
+        </div>
+        <a href="@link" class="small-box-footer">
+            More info <i class="fas fa-arrow-circle-right"></i>
+        </a>
+    </div>
+}

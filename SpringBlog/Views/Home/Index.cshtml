@@ -7,7 +7,6 @@
 
 <h1 class="my-4">
     My Blog Posts
-    <small></small>
 </h1>
 
 @foreach (var item in Model.Posts)
@@ -17,7 +16,7 @@
         <div class="card-body">
             <h2 class="card-title">@item.Title</h2>
                  @Html.Raw(item.Content)
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
+            <a href="@Url.Action("Show","Post",new { slug=item.Slug})" class="btn btn-primary">Read More &rarr;</a>
         </div>
         <div class="card-footer text-muted">
             Posted on @item.CreationTime.Value.ToShortDateString() by
