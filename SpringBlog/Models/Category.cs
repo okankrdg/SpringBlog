@@ -11,6 +11,7 @@ namespace SpringBlog.Models
         public int Id { get; set; }
         [Required]
         [StringLength(40)]
+        [Display(Name ="Category Name")]
         public string CategoryName { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
     }

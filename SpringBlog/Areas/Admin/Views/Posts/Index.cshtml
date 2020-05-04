@@ -1,0 +1,47 @@
+﻿@model List<Post>
+@{
+    ViewBag.Title = "Categories";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Manage Categories</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped" data-table="true">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Creation Time</th>
+                    <th>Modifacation Time</th>
+                    
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var art in Model)
+                {
+                    <tr>
+                        <td>@art.Id</td>
+                        <td>@art.Title</td>
+                        <td>@art.Author.DisplayName</td>
+                        <td>@art.Category.CategoryName</td>
+                        <td>@art.CreationTime.Value</td>
+                        <td>@art.ModifacationTime.Value</td>
+                        <td>
+                            <a href="@Url.Action("Edit",new {id=art.Id })" class="btn btn-info"><i class="fas fa-edit"></i></a>
+                            <a href="#" class="btn btn-danger" data-delete-id="@art.Id" data-delete-name="@art.Title" data-delete-action="@Url.Action("delete")"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <!-- /.card-body -->
+</div>
+@Html.Partial("_DeleteModalPartial")
