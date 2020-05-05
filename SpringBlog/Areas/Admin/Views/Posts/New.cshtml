@@ -3,7 +3,7 @@
     ViewBag.Title = "New Post";
 }
 
-@using (Html.BeginForm("New", "Posts", FormMethod.Post))
+@using (Html.BeginForm("New", "Posts", FormMethod.Post,new { enctype="multipart/form-data"}))
 {
     @Html.AntiForgeryToken()
     <div class="card card-primary card-outline">
@@ -15,8 +15,8 @@
             <div class="row">
                 <div class="col-md-9">
                     <div class="form-group">
-                        @Html.TextBoxFor(x => x.Title, new { @class="form-control", placeholder="Title:"})
-                        @Html.ValidationMessageFor(x => x.Title, null, new {@class="text-danger" })
+                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control", placeholder = "Title" })
+                        @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -34,34 +34,68 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-inline">
-                        <div class="btn btn-default btn-file">
-                            <i class="fas fa-paperclip"></i> Attachment
-                            <input type="file" name="attachment">
+                        <div class="btn btn-default">
+                            <i class="fas fa-paperclip"></i>
+                            @Html.TextBoxFor(x => x.FeaturedImage, new { type="file"})
                         </div>
-                        <p class="help-block">Max. 32MB</p>
+                            @Html.ValidationMessageFor(x => x.FeaturedImage, null, new { @class="text-danger"})
                     </div>
                 </div>
                 <div class="col-md-6 form-inline">
-               
-                        @Html.LabelFor(x => x.Title, new {@class="mr-2"})
-                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control flex-fill", placeholder = "Short Url" })
-                        @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
-                   
+                    @Html.LabelFor(x => x.Slug, new { @class = "mr-2" })
+                    @Html.TextBoxFor(x => x.Slug, new { @class = "form-control flex-fill", placeholder = "post-title-url" })
+                    <a id="refreshSlug" href="#" class="ml-1"><i class="fas fa-sync-alt"></i></a>
+                    @Html.ValidationMessageFor(x => x.Slug, null, new { @class = "text-danger" })
                 </div>
             </div>
-           
+
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
             <div class="float-right">
-                <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Draft</button>
-                <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
+                <a href="@Url.Action("Index")" class="btn btn-warning">Cancel</a>
+                <button type="submit" class="btn btn-primary"> Add</button>
             </div>
-            <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
         </div>
         <!-- /.card-footer -->
     </div>
     <!-- /.card -->
+}
+@section scripts{
+    <script>
+        $(function () {
+            $('#Title').change(function () {
+                var title = $(this).val();
+                $.post("@Url.Action("ConverToSlug")", { title: title }, function (data) {
+                    if (!$('#Slug').val()) {
+                        $("#Slug").val(data);
+                    }
+
+                });
+            });
+            $('#refreshSlug').click(function () {
+                var title = $('#Title').val();
+                $.post("@Url.Action("ConverToSlug")", { title: title }, function (data) {
+                    if (title != null) {
+                        $("#Slug").val(data);
+                    }
+                });
+            });
+            function generateSlug() {
+                var title = $("#Title").val();
+                if (!title) return;
+
+                $.post("@Url.Action("ConvertToSlug")", { title: title }, function (data) {
+                    $("#Slug").val(data);
+                });
+            }
+
+        });
+        
+
+
+    </script>
+
 }
 
 

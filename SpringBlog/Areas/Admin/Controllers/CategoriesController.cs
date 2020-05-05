@@ -65,6 +65,11 @@ namespace SpringBlog.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            if (model.Posts.Count > 0)
+            {
+                TempData["ErrorMessage"] = "You cannot delete a category which contains posts.";
+                return RedirectToAction("Index");
+            }
             db.Categories.Remove(model);
             db.SaveChanges();
             TempData["SuccessMessage"] = "The Category has been deleted successgully";

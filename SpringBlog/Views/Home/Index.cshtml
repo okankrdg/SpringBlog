@@ -11,18 +11,24 @@
 
 @foreach (var item in Model.Posts)
 {
-    <div class="card mb-4 blog-post">
-        <img class="card-img-top" src="https://placehold.it/750x200" alt="Card image cap">
-        <div class="card-body">
-            <h2 class="card-title">@item.Title</h2>
-                 @Html.Raw(item.Content)
-            <a href="@Url.Action("Show","Post",new { slug=item.Slug})" class="btn btn-primary">Read More &rarr;</a>
+<div class="card mb-4 blog-post">
+    @if (!string.IsNullOrEmpty(item.PhotoPath))
+    {
+        <img class="card-img-top" src="@Url.FeaturedImage(item.PhotoPath)" alt="Card image cap">
+    }
+
+    <div class="card-body">
+        <h2 class="card-title">@item.Title</h2>
+        <div class="blog-post-content">
+            @Html.Raw(item.Content)
         </div>
-        <div class="card-footer text-muted">
-            Posted on @item.CreationTime.Value.ToShortDateString() by
-            <a href="#">@(item.Author.DisplayName ?? "Anonymous" )</a>
-        </div>
+        <a href="@Url.Action("Show","Post",new {id=item.Id, slug=item.Slug})" class="btn btn-primary">Read More &rarr;</a>
     </div>
+    <div class="card-footer text-muted">
+        Posted on @item.CreationTime.Value.ToShortDateString() by
+        <a href="#">@(item.Author.DisplayName ?? "Anonymous")</a>
+    </div>
+</div>
 }
 <!-- Blog Post -->
 <!-- Blog Post -->
@@ -35,3 +41,12 @@
         <a class="page-link" href="#">Newer &rarr;</a>
     </li>
 </ul>
+@section scripts {
+    <script>
+        $(".blog-post-content").each(function () {
+            if ($(this).outerHeight() >= 300) {
+                $(this).addClass("long-text");
+            }
+        });
+    </script>
+}

@@ -6,6 +6,19 @@
 .blog-post img{
     max-width:100%;
 }
+.blog-post-content{
+    position:relative;
+    max-height:300px;
+    overflow:hidden;
+}
+.blog-post-content.long-text::after {
+    content:"";
+    position:absolute;
+    top:250px;
+    height:50px;
+    width:100%;
+    background-image:linear-gradient(to bottom,transparent,white)
+}
 .show-post img {
     max-width: 100%;
 }

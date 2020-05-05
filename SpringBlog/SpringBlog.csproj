@@ -193,6 +193,7 @@
     <Compile Include="Areas\Admin\ViewModels\NewPostViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PostController.cs" />
@@ -200,6 +201,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\IdentityHelpers.cs" />
+    <Compile Include="Helpers\ImageUtiltes.cs" />
+    <Compile Include="Helpers\PostImageAttribute.cs" />
     <Compile Include="Helpers\UrlService.cs" />
     <Compile Include="Migrations\202004291623341_Initial.cs" />
     <Compile Include="Migrations\202004291623341_Initial.Designer.cs">
@@ -1903,6 +1906,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\img-not-found.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -2150,11 +2154,14 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\_CategoriesPartial.cshtml" />
     <Content Include="Views\Post\Show.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Views\AdminBase\" />
+    <Folder Include="Upload\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>

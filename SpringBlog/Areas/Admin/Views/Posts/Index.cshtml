@@ -13,6 +13,7 @@
             <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Images</th>
                     <th>Title</th>
                     <th>Author</th>
                     <th>Category</th>
@@ -27,6 +28,7 @@
                 {
                     <tr>
                         <td>@art.Id</td>
+                        <td> <img src="@Url.FeaturedImage(art.PhotoPath)" alt="Alternate Text" height="60"/></td>
                         <td>@art.Title</td>
                         <td>@art.Author.DisplayName</td>
                         <td>@art.Category.CategoryName</td>

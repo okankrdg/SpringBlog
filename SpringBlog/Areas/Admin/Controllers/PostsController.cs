@@ -27,6 +27,7 @@ namespace SpringBlog.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 Post post = new Post
                 {
                     Title = vm.Title,
@@ -35,8 +36,8 @@ namespace SpringBlog.Areas.Admin.Controllers
                     AuthorId = User.Identity.GetUserId(),
                     CreationTime = DateTime.Now,
                     ModifacationTime = DateTime.Now,
-                    Slug = UrlService.URLFriendly(vm.Title),
-                    PhotoPath = ""
+                    Slug = UrlService.URLFriendly(vm.Slug),
+                    PhotoPath = this.SaveImage(vm.FeaturedImage)
                 };
                 db.Posts.Add(post);
                 db.SaveChanges();
@@ -59,6 +60,12 @@ namespace SpringBlog.Areas.Admin.Controllers
             db.SaveChanges();
             TempData["SuccessMessage"] = "The Post has been deleted successgully";
             return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public JsonResult ConverToSlug(string title)
+        {
+            var data= UrlService.URLFriendly(title);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }
