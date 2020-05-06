@@ -42,7 +42,6 @@ namespace SpringBlog.Areas.Admin.Controllers
                 db.Posts.Add(post);
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "The Post has been deleted successgully";
-                //todo : Post/ındexe Yonlendir
                 return RedirectToAction("Index");
             }
             ViewBag.CategoryId = new SelectList(db.Categories.OrderBy(x => x.CategoryName).ToList(), "Id", "CategoryName");
@@ -56,6 +55,7 @@ namespace SpringBlog.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            ImageUtiltes.DeleteImage(this,model.PhotoPath);
             db.Posts.Remove(model);
             db.SaveChanges();
             TempData["SuccessMessage"] = "The Post has been deleted successgully";

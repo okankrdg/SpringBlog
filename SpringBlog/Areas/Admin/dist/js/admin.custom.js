@@ -2,7 +2,7 @@
     $('textarea[data-snote="true"]').summernote({
         height: 400
     });
-    $("[data-delete-id]").click(function (event) {
+    $("body").on("click","[data-delete-id]", function (event) {
         event.preventDefault();
         var button = $(this); // Button that triggered the modal
         var id = button.data('delete-id') // Extract info from data-* attributes

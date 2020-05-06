@@ -69,6 +69,10 @@
                 $.post("@Url.Action("ConverToSlug")", { title: title }, function (data) {
                     if (!$('#Slug').val()) {
                         $("#Slug").val(data);
+                        //validation trigger
+                        $('#Slug').focus();
+                        $('#Slug').focusout();
+                        //validation trigger
                     }
 
                 });
