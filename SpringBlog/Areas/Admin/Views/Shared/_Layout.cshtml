@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -175,56 +176,28 @@
                         <!-- Add icons to the links using the .nav-icon class
                         with font-awesome or any other icon font library -->
                         <li class="nav-item ">
-                            <a href="@Url.Action("Index","Dashboard")" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    DashBoard
-                                </p>
-                            </a>
+                            @MenuLink("Dashboard","Index","Dashboard","fas fa-tachometer-alt")
                         </li>
                         <li class="nav-item has-treeview menu-open">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-table"></i>
-                                <p>
-                                    Categories
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
+                            @MenuLink("Categories", "Index", "Categories", "fas fa-table",true)
+                           
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Index","Categories")" class="nav-link">
-                                        <i class="fas fa-tasks nav-icon"></i>
-                                        <p>Manage</p>
-                                    </a>
+                                    @MenuLink("List Categories", "Index", "Categories", "fas fa-list")
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("New","Categories")" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Add New</p>
-                                    </a>
+                                    @MenuLink("Add New", "New", "Categories", "fas fa-plus")
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item has-treeview menu-open">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-file"></i>
-                                <p>
-                                    Posts
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
+                                @MenuLink("Posts", "Index", "Posts", "fas fa-file-alt", true)
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Index","Posts")" class="nav-link">
-                                        <i class="fas fa-tasks nav-icon"></i>
-                                        <p>Manage</p>
-                                    </a>
+                                    @MenuLink("Posts", "Index", "Posts", "fas fa-list")
                                 </li>
                                 <li class="nav-item">
-                                    <a href="@Url.Action("New","Posts")" class="nav-link">
-                                        <i class="fas fa-plus nav-icon"></i>
-                                        <p>Add New</p>
-                                    </a>
+                                    @MenuLink("New Post", "New", "Posts", "fas fa-plus")
                                 </li>
                             </ul>
                         </li>
@@ -245,10 +218,7 @@
                             <h1>@ViewBag.Title</h1>
                         </div>
                         <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="@Url.Action("Index","Home",new { area=""})">Visit Webiste</a></li>
-                                <li class="breadcrumb-item active">Blank Page</li>
-                            </ol>
+                            @Html.Partial("_BreadCrumPartial")
                         </div>
                     </div>
                 </div><!-- /.container-fluid -->
@@ -295,6 +265,7 @@
     <script src="~/Areas/Admin/dist/js/demo.js"></script>
     <script src="~/Areas/Admin/plugins/summernote/summernote-bs4.min.js"></script>
     <script src="~/Areas/Admin/dist/js/admin.custom.js"></script>
+    <script src="~/Areas/Admin/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
     <script src="~/Areas/Admin/plugins/toastr/toastr.min.js"></script>
     @RenderSection("scripts", false)
     <script>
@@ -313,3 +284,22 @@
     </script>
 </body>
 </html>
+@helper MenuLink(string linkText, string actionName, string controllerName, string iconClass, bool isParent = false)
+{
+
+var activeController = this.ViewContext.RouteData.Values["controller"].ToString();
+var activeAction = this.ViewContext.RouteData.Values["action"].ToString();
+bool isActive = controllerName == activeController && (isParent || activeAction == actionName);
+
+<a href="@Url.Action(actionName,controllerName)" class="nav-link @(isActive ? "active": "")">
+        <i class="nav-icon @iconClass"></i>
+        <p>
+            @linkText
+            @if (isParent)
+            {
+                <i class="fas fa-angle-left"></i>
+            }
+        </p>
+    </a>
+
+}

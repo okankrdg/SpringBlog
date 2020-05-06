@@ -1,4 +1,5 @@
-﻿using SpringBlog.ViewModel;
+﻿using SpringBlog.Models;
+using SpringBlog.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,32 @@ namespace SpringBlog.Controllers
 {
     public class HomeController : BaseController
     {
-        public ActionResult Index()
+        public ActionResult Index(int? cid,string q)
         {
+            IQueryable<Post> posts = db.Posts;
+            Category category = null;
+            string searchResult = null;
+            if (cid != null)
+            {
+                category = db.Categories.Find(cid);
+                if (category==null)
+                {
+                    return HttpNotFound();
+                }
+                posts = posts.Where(x => x.CategoryId == cid);
+                
+            };
+            if (q != null)
+            {
+                q = q.Trim();
+                posts = posts.Where(x => x.Content.Contains(q) || x.Title.Contains(q));
+                searchResult = q;
+            }
             var vm = new HomeIndexViewModel
             {
-                Posts = db.Posts.OrderByDescending(x => x.CreationTime).ToList()
+                Posts = posts.OrderByDescending(x => x.CreationTime).ToList(),
+                SelectedCategory = category,
+                SearchResult=searchResult
             };
             return View(vm);
         }

@@ -13,6 +13,6 @@
         $("#deleteModalItemId").val(id);
         $("#deleteModal").modal();
     });
-   
+    bsCustomFileInput.init();
 });
 

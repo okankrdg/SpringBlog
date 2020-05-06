@@ -5,9 +5,23 @@
 
 
 
-<h1>
-    My Blog Posts
-</h1>
+    <h1 class="alert alert-secondary">
+        @if (!string.IsNullOrEmpty(Model.SearchResult))
+        {
+            <text>
+                Search Results for &quot;@Model.SearchResult &quot;
+            </text>
+        }
+        else
+        {
+            @(Model.SelectedCategory == null ? "My Blog Posts" : Model.SelectedCategory.CategoryName)
+
+        }
+    </h1>
+@if(!Model.Posts.Any() && Model.SearchResult != null)
+{
+    <h3> No Results Found</h3>
+}
 
 @foreach (var item in Model.Posts)
 {
@@ -33,7 +47,7 @@
 <!-- Blog Post -->
 <!-- Blog Post -->
 <!-- Pagination -->
-<ul class="pagination justify-content-center mb-4">
+<ul class="pagination justify-content-center mb-4 mt-auto">
     <li class="page-item">
         <a class="page-link" href="#">&larr; Older</a>
     </li>

@@ -9,5 +9,7 @@ namespace SpringBlog.ViewModel
     public class HomeIndexViewModel
     {
         public List<Post> Posts { get; set; }
+        public Category SelectedCategory { get; set; }
+        public string SearchResult { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using SpringBlog.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -60,6 +61,49 @@ namespace SpringBlog.Areas.Admin.Controllers
             db.SaveChanges();
             TempData["SuccessMessage"] = "The Post has been deleted successgully";
             return RedirectToAction("Index");
+        }
+        public ActionResult Edit(int id)
+        {
+            var article = db.Posts.Find(id);
+            if (article==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            EditPostViewModel vm = new EditPostViewModel
+            {
+                CategoryId = article.CategoryId,
+                Content = article.Content,
+                CreationTime = article.CreationTime.Value,
+                CurrentFeaturedImageName = article.PhotoPath,
+                ModifacationTime = article.ModifacationTime.Value,
+                Id = article.Id,
+                Slug = article.Slug,
+                Title = article.Title
+            };
+            ViewBag.CategoryId = new SelectList(db.Categories.OrderBy(x => x.CategoryName).ToList(), "Id", "CategoryName");
+            return View(vm);
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Edit(EditPostViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var post = db.Posts.Find(vm.Id);
+                post.CategoryId = vm.CategoryId;
+                post.Content = vm.Content;
+                post.ModifacationTime = DateTime.Now;
+                post.Slug = UrlService.URLFriendly(vm.Slug);
+                post.Title = vm.Title;
+                if (vm.FeaturedImage != null)
+                {
+                    this.DeleteImage(post.PhotoPath);
+                    post.PhotoPath = this.SaveImage(vm.FeaturedImage);
+                }
+                TempData["SuccessMessage"] = "The Post has been updated successfully";
+                return RedirectToAction("Index");
+            }
+            ViewBag.CategoryId = new SelectList(db.Categories.OrderBy(x => x.CategoryName).ToList(), "Id", "CategoryName");
+            return View(vm);
         }
         [HttpPost]
         public JsonResult ConverToSlug(string title)
