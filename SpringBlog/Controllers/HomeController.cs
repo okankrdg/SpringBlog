@@ -5,13 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using X.PagedList;
 
 namespace SpringBlog.Controllers
 {
     public class HomeController : BaseController
     {
-        public ActionResult Index(int? cid,string q)
+        public ActionResult Index(int? cid,string q,int page=1)
         {
+            int pageSize = 10;
+
             IQueryable<Post> posts = db.Posts;
             Category category = null;
             string searchResult = null;
@@ -33,10 +36,12 @@ namespace SpringBlog.Controllers
             }
             var vm = new HomeIndexViewModel
             {
-                Posts = posts.OrderByDescending(x => x.CreationTime).ToList(),
+                Posts = posts.OrderByDescending(x => x.CreationTime).ToPagedList(page,pageSize),
                 SelectedCategory = category,
-                SearchResult=searchResult
+                SearchResult=searchResult,
+                CategoryID=cid
             };
+            
             return View(vm);
         }
 

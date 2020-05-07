@@ -5,56 +5,70 @@
 
 
 
-    <h1 class="alert alert-secondary">
-        @if (!string.IsNullOrEmpty(Model.SearchResult))
-        {
-            <text>
-                Search Results for &quot;@Model.SearchResult &quot;
-            </text>
-        }
-        else
-        {
-            @(Model.SelectedCategory == null ? "My Blog Posts" : Model.SelectedCategory.CategoryName)
+<h1 class="alert alert-secondary">
+    @if (!string.IsNullOrEmpty(Model.SearchResult))
+    {
+        <text>
+            Search Results for &quot;@Model.SearchResult &quot;
+        </text>
+    }
+    else
+    {
+        @(Model.SelectedCategory == null ? "My Blog Posts" : Model.SelectedCategory.CategoryName)
 
-        }
-    </h1>
-@if(!Model.Posts.Any() && Model.SearchResult != null)
+    }
+</h1>
+@if (!Model.Posts.Any() && Model.SearchResult != null)
 {
     <h3> No Results Found</h3>
 }
 
 @foreach (var item in Model.Posts)
 {
-<div class="card mb-4 blog-post">
-    @if (!string.IsNullOrEmpty(item.PhotoPath))
-    {
-        <img class="card-img-top" src="@Url.FeaturedImage(item.PhotoPath)" alt="Card image cap">
-    }
+    <div class="card mb-4 blog-post">
+        @if (!string.IsNullOrEmpty(item.PhotoPath))
+        {
+            <img class="card-img-top" src="@Url.FeaturedImage(item.PhotoPath)" alt="Card image cap">
+        }
 
-    <div class="card-body">
-        <h2 class="card-title">@item.Title</h2>
-        <div class="blog-post-content">
-            @Html.Raw(item.Content)
+        <div class="card-body">
+            <h2 class="card-title">@item.Title</h2>
+            <div class="blog-post-content">
+                @Html.Raw(item.Content)
+            </div>
+            <a href="@Url.Action("Show","Post",new {id=item.Id, slug=item.Slug})" class="btn btn-primary">Read More &rarr;</a>
         </div>
-        <a href="@Url.Action("Show","Post",new {id=item.Id, slug=item.Slug})" class="btn btn-primary">Read More &rarr;</a>
+        <div class="card-footer text-muted">
+            Posted on @item.CreationTime.Value.ToShortDateString() by
+            <a href="#">@(item.Author.DisplayName ?? "Anonymous")</a>
+        </div>
     </div>
-    <div class="card-footer text-muted">
-        Posted on @item.CreationTime.Value.ToShortDateString() by
-        <a href="#">@(item.Author.DisplayName ?? "Anonymous")</a>
-    </div>
-</div>
 }
 <!-- Blog Post -->
 <!-- Blog Post -->
 <!-- Pagination -->
-<ul class="pagination justify-content-center mb-4 mt-auto">
-    <li class="page-item">
-        <a class="page-link" href="#">&larr; Older</a>
-    </li>
-    <li class="page-item disabled">
-        <a class="page-link" href="#">Newer &rarr;</a>
-    </li>
-</ul>
+<nav aria-label="Page Number and Paginartion">
+    <div class="mb-3 text-center">
+        Page @(Model.Posts.PageCount < Model.Posts.PageNumber ? 0 : Model.Posts.PageNumber) of @Model.Posts.PageCount
+    </div>
+    
+
+    @Html.PagedListPager(Model.Posts, page => Url.Action("Index",
+        new { page, cid = Model.CategoryID, q = Model.SearchResult }),
+        new PagedListRenderOptionsBase {
+            ContainerDivClasses=new string[] {"pagination-container", "d-flex"},
+            UlElementClasses=new string[] {"pagination", "mx-auto"},
+            LiElementClasses = new string[] { "page-item" },
+            PageClasses= new string[] { "page-link"},
+            EllipsesElementClass="page-link",
+            LinkToFirstPageFormat = "&laquo;",
+            LinkToLastPageFormat = "&raquo;",
+            LinkToPreviousPageFormat = "&lsaquo;",
+            LinkToNextPageFormat = "&rsaquo;",
+            MaximumPageNumbersToDisplay=4
+        })
+</nav>
+
 @section scripts {
     <script>
         $(".blog-post-content").each(function () {
