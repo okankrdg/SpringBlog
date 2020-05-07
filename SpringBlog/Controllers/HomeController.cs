@@ -1,4 +1,6 @@
-﻿using SpringBlog.Models;
+﻿using Microsoft.AspNet.Identity;
+using SpringBlog.Helpers;
+using SpringBlog.Models;
 using SpringBlog.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -62,6 +64,15 @@ namespace SpringBlog.Controllers
         {
             var cats = db.Categories.OrderBy(x => x.CategoryName).ToList();
             return PartialView("_CategoriesPartial",cats);
+        }
+        [HttpPost]
+        public JsonResult UploadBase64(string base64) 
+        {
+            string data= ImageUtiltes.SaveProfilePhoto(this, base64);
+            db.Users.Find(User.Identity.GetUserId()).ProfilePhoto = data;
+            db.SaveChanges();
+            data = Url.ProfilePhoto(data);
+            return Json(data,JsonRequestBehavior.AllowGet);
         }
     }
 }

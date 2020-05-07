@@ -22,6 +22,8 @@ namespace SpringBlog.Models
         }
         [StringLength(30)]
         public string DisplayName { get; set; }
+        [StringLength(100)]
+        public string ProfilePhoto { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
     }
 
