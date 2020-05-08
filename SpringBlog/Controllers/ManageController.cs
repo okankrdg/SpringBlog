@@ -6,12 +6,13 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using SpringBlog.Helpers;
 using SpringBlog.Models;
 
 namespace SpringBlog.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -321,7 +322,21 @@ namespace SpringBlog.Controllers
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
-
+        [HttpPost]
+        public ActionResult UploadBase64(string base64)
+        {
+            if (string.IsNullOrEmpty(base64))
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+            string data = ImageUtiltes.SaveProfilePhoto(this, base64);
+            var user = db.Users.Find(User.Identity.GetUserId());
+            ImageUtiltes.DeleteImage(this, user.ProfilePhoto, "Profiles");
+            user.ProfilePhoto = data;
+            db.SaveChanges();
+            data = Url.ProfilePhoto(data);
+            return Json(data);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

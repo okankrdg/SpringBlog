@@ -114,7 +114,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="btnUpload" type="submit" class="btn btn-primary">Crop and Upload</button>
+                <button id="btnUpload" type="submit" class="btn btn-primary" disabled>Crop and Upload</button>
             </div>
         </div>
     </div>
@@ -126,6 +126,16 @@
 
         $("#file-input").change(function () {
             readFile(this);
+            if (this.files && this.files[0]) {
+                $('#btnUpload').removeAttr("disabled");
+            }
+            else {
+                $("#btnUpload").attr("disabled", "disabled");
+                if (cropper) {
+                cropper.croppie('destroy');
+                cropper = null;
+            }
+            }
         });
 
         function readFile(input) {
@@ -147,28 +157,31 @@
         $('#modalChangePhoto').on('hidden.bs.modal', function (e) {
             $("#file-input").val(null);
             $('.custom-file-label').text("Choose file");
+            $('#btnUpload').attr("disabled", "disabled");
             if (cropper) {
-                 cropper.croppie('destroy');
+                cropper.croppie('destroy');
                 cropper = null;
             }
            
         });
         $('#btnUpload').click(function () {
+
              cropper.croppie('result', {
                 type: "base64",
                 size: { width: 400, height: 400 }
              }).then(function (base64) {
                  $.ajax({
-                     url: "/Home/UploadBase64/",
+                     url: "/Manage/UploadBase64/",
                      data: { base64: base64 },
                      type: "Post",
                      success: function (data) {
                          $('#profilePhoto').attr('src', data);
-                         $('.modal').close();
+                         $('.modal').modal('hide');
                      }
                  })
                 
-            });
+            }
+            );
         });
     </script>
 

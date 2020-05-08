@@ -5,6 +5,7 @@ using SpringBlog.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using X.PagedList;
@@ -69,10 +70,12 @@ namespace SpringBlog.Controllers
         public JsonResult UploadBase64(string base64) 
         {
             string data= ImageUtiltes.SaveProfilePhoto(this, base64);
-            db.Users.Find(User.Identity.GetUserId()).ProfilePhoto = data;
+            var user = db.Users.Find(User.Identity.GetUserId());
+            ImageUtiltes.DeleteImage(this, user.ProfilePhoto, "Profiles");
+            user.ProfilePhoto = data;
             db.SaveChanges();
             data = Url.ProfilePhoto(data);
-            return Json(data,JsonRequestBehavior.AllowGet);
+            return Json(data);
         }
     }
 }
