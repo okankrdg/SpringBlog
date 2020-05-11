@@ -26,6 +26,7 @@ namespace SpringBlog.Models
         [StringLength(100)]
         public string ProfilePhoto { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -42,9 +43,13 @@ namespace SpringBlog.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Post>().HasRequired(x => x.Category).WithMany(x => x.Posts).HasForeignKey(x => x.CategoryId).WillCascadeOnDelete(false);
+            
+            //yazarı silince postları slinecektir ve dolaylı yoldan yorumlar silinecektir
+            modelBuilder.Entity<Comment>().HasRequired(x => x.Author).WithMany(x => x.Comments).HasForeignKey(x => x.AuthorId).WillCascadeOnDelete(false);
             base.OnModelCreating(modelBuilder); 
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }

@@ -1,16 +1,109 @@
-﻿@model Post
+﻿@*https://startbootstrap.com/templates/blog-post/*@
+@model ShowPostViewModel
 @{
-    ViewBag.Title = "Show";
+    ViewBag.Title = Model.Post.Title;
 }
 
-<h2 class="mt-1">@Model.Title</h2>
-<div class="show-post">
-    @if (!string.IsNullOrEmpty(Model.PhotoPath))
-    {
-    <img src="@Url.FeaturedImage(Model.PhotoPath)" alt="Alternate Text" />
+<!-- Title -->
+    <div class="mt-3">
+        <h1>@Model.Post.Title</h1>
+
+        <!-- Author -->
+        <p class="lead">
+            by
+            <a href="#">@Model.Post.Author.DisplayName</a>
+        </p>
+
+        <hr>
+
+        <!-- Date/Time -->
+        <p>Posted on @Model.Post.CreationTime.Value.ToLongDateString()</p>
+
+        <hr>
+
+        <!-- Preview Image -->
+        @if (!string.IsNullOrEmpty(Model.Post.PhotoPath))
+        {
+            <img class="img-fluid rounded" src="@Url.FeaturedImage(Model.Post.PhotoPath)" alt="">
+            <hr>
+        }
+
+        @Html.Raw(Model.Post.Content)
+
+        <!-- Comments Form -->
+        <div class="card my-4" id="leave-a-comment">
+            <h5 class="card-header" >Leave a Comment:</h5>
+            <div class="card-body">
+                @if (Request.QueryString["commmetSuccess"] == "True")
+                {
+                    <div class="alert alert-success">
+                        Your comment success
+                    </div>
+                }
+                @if (Request.IsAuthenticated)
+                {
+                    @Html.Partial("_CommentFormPartial", Model.commentViewModel)
+
+                }
+                else
+                {
+                    <p class="text-center mt-2">
+                        Please
+                        @Html.ActionLink("Sign In", "Login", "Account", new { returnUrl = Request.Url.AbsolutePath }, null)
+                        sign in
+                        or
+                        @Html.ActionLink("Register", "Register", "Account")
+                        to leave a comment
+                    </p>
+                }
+            </div>
+        </div>
+
+        @foreach (var item in Model.Post.Comments.Where(x => x.State == CommentState.Approved && x.ParentId == null).OrderByDescending(x => x.CreationTime))
+        {
+            <div class="media mb-4">
+                <img class="d-flex mr-3 rounded-circle" src="@Url.ProfilePhoto(item.Author.ProfilePhoto)" alt="" width="50" height="50">
+                <div class="media-body">
+                    <h5 class="mt-0">@item.Author.DisplayName</h5>
+                    @item.Content 
+                <a href="#" class="btnReply" data-comment-id="@item.Id"> <i class="fas fa-reply"></i> Reply </a>
+                    <div class="reply-form-wrapper">
+
+                    </div>
+                    @foreach (var subcomment in item.Children.Where(x => x.State == CommentState.Approved).OrderByDescending(x => x.CreationTime))
+                    {
+                        <div class="media mb-4">
+                            <img class="d-flex mr-3 rounded-circle" src="@Url.ProfilePhoto(subcomment.Author.ProfilePhoto)" alt="" width="50" height="50">
+                            <div class="media-body">
+                                <h5 class="mt-0">@subcomment.Author.DisplayName</h5>
+                                @subcomment.Content
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="mr-auto">
+                    @item.CreationTime.Value.ToString("dd.MM.yyyy HH:mm")
+                </div>
+            </div>
+            <hr />
+        }
+        <!-- Single Comment -->
+
+    </div>
+@section scripts{
+    <script>
+          setTimeout(function () {
+            if (location.hash == "#leave-a-comment") {
+                window.scrollTo(0, $("#leave-a-comment").offset().top - 65);
+            }
+          }, 100);
+        $(".btnReply").click(function (event) {
+            var comId = $(this).data("comment-id");
+            event.preventDefault();
+            var frm = $("#leave-a-comment form").clone();
+            frm.find("#ParentId").val(comId);
+            $(".reply-form-wrapper").html("");
+            $(this).next(".reply-form-wrapper").html(frm)
+        })
+    </script>
     }
-    @Html.Raw(@Model.Content)
-
-</div>
-
-
