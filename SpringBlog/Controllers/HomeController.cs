@@ -14,7 +14,9 @@ namespace SpringBlog.Controllers
 {
     public class HomeController : BaseController
     {
-        public ActionResult Index(int? cid,string q,int page=1)
+        [Route("", Order =2,Name ="homedefault")]
+        [Route("category/{cid}/{slug}", Order =1)]
+        public ActionResult Index(int? cid, string slug, string q,int page=1)
         {
             int pageSize = 10;
 

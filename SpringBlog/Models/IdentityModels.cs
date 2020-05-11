@@ -20,6 +20,7 @@ namespace SpringBlog.Models
             userIdentity.AddClaim(new Claim("DisplayName", DisplayName));
             return userIdentity;
         }
+        [Required]
         [StringLength(30)]
         public string DisplayName { get; set; }
         [StringLength(100)]

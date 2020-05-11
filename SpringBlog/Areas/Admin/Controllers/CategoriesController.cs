@@ -1,4 +1,5 @@
-﻿using SpringBlog.Models;
+﻿using SpringBlog.Helpers;
+using SpringBlog.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -75,5 +76,6 @@ namespace SpringBlog.Areas.Admin.Controllers
             TempData["SuccessMessage"] = "The Category has been deleted successgully";
             return RedirectToAction("Index");
         }
+       
     }
 }

@@ -1,4 +1,4 @@
-﻿$(function () {    $('table[data-table="true"]').DataTable({        "responsive": true,        "autoWidth": false,    });
+﻿$(function () {    $('table[data-table="true"]').DataTable({        "responsive": true,        "autoWidth": false,        "order": [[5, "desc"]]    });
     $('textarea[data-snote="true"]').summernote({
         height: 400
     });

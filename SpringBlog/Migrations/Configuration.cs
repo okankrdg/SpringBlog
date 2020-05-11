@@ -48,6 +48,7 @@ namespace SpringBlog.Migrations
                     context.Categories.Add(new Category
                     {
                         CategoryName = "Sample Category 1",
+                        Slug="Sample-Category-1",
                         Posts = new List<Post>
                         {
                             new Post
@@ -81,7 +82,7 @@ namespace SpringBlog.Migrations
             if (!context.Categories.Any(x => x.CategoryName == "Generated Posts") && context.Users.Any())
             {
                 var userId = context.Users.First().Id;
-                context.Categories.Add(new Category { CategoryName = "Generated Posts", Posts = GeneratePosts(userId) });
+                context.Categories.Add(new Category { CategoryName = "Generated Posts",Slug="generated-posts-1" ,Posts = GeneratePosts(userId) });
 
             }
             #endregion

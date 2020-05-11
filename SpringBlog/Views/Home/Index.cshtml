@@ -54,7 +54,7 @@
     
 
     @Html.PagedListPager(Model.Posts, page => Url.Action("Index",
-        new { page, cid = Model.CategoryID, q = Model.SearchResult }),
+        new { page, q = Model.SearchResult }),
         new PagedListRenderOptionsBase {
             ContainerDivClasses=new string[] {"pagination-container", "d-flex"},
             UlElementClasses=new string[] {"pagination", "mx-auto"},

@@ -11,14 +11,24 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                @using (Html.BeginForm("New", "Categories", FormMethod.Post,new { @class=""}))
+                @using (Html.BeginForm("New", "Categories", FormMethod.Post, new { @class = "" }))
                 {
                     @Html.AntiForgeryToken()
                     <div class="card-body">
                         <div class="form-group">
-                            @Html.LabelFor(x=>x.CategoryName)
-                            @Html.TextBoxFor(x => x.CategoryName, new {@class="form-control",placeholder="Enter Category Name" })
-                            @Html.ValidationMessageFor(x => x.CategoryName, null, new { @class="text-danger"})
+                            @Html.LabelFor(x => x.CategoryName)
+                            @Html.TextBoxFor(x => x.CategoryName, new { @class = "form-control", placeholder = "Enter Category Name" })
+                            @Html.ValidationMessageFor(x => x.CategoryName, null, new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Slug)
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Slug, new { @class = "form-control", placeholder = "Enter-short-url" })
+                                <div class="input-group-append">
+                                    <a id="refreshSlug" href="#" class="btn btn-outline-dark"><i class="fas fa-sync-alt"></i></a>
+                                </div>
+                            </div>
+                            @Html.ValidationMessageFor(x => x.Slug, null, new { @class = "text-danger" })
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -31,4 +41,10 @@
         </div>
     </div>
 </div>
+@section scripts
+ {
+    <script>
+        slug.run('#CategoryName', "#Slug", '#refreshSlug'); 
+    </script>
 
+}
