@@ -3,7 +3,7 @@
     ViewBag.Title = "New Post";
 }
 
-@using (Html.BeginForm("New", "Posts", FormMethod.Post,new { enctype="multipart/form-data"}))
+@using (Html.BeginForm("New", "Posts", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="card card-primary card-outline">
@@ -36,9 +36,9 @@
                     <div class="form-inline">
                         <div class="btn btn-default">
                             <i class="fas fa-paperclip"></i>
-                            @Html.TextBoxFor(x => x.FeaturedImage, new { type="file"})
+                            @Html.TextBoxFor(x => x.FeaturedImage, new { type = "file" })
                         </div>
-                            @Html.ValidationMessageFor(x => x.FeaturedImage, null, new { @class="text-danger"})
+                        @Html.ValidationMessageFor(x => x.FeaturedImage, null, new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="col-md-6 form-inline">
@@ -61,43 +61,10 @@
     </div>
     <!-- /.card -->
 }
-@section scripts{
+@section scripts
+ {
     <script>
-        $(function () {
-            $('#Title').change(function () {
-                var title = $(this).val();
-                $.post("@Url.Action("ConverToSlug")", { title: title }, function (data) {
-                    if (!$('#Slug').val()) {
-                        $("#Slug").val(data);
-                        //validation trigger
-                        $('#Slug').focus();
-                        $('#Slug').focusout();
-                        //validation trigger
-                    }
-
-                });
-            });
-            $('#refreshSlug').click(function () {
-                var title = $('#Title').val();
-                $.post("@Url.Action("ConverToSlug")", { title: title }, function (data) {
-                    if (title != null) {
-                        $("#Slug").val(data);
-                    }
-                });
-            });
-            function generateSlug() {
-                var title = $("#Title").val();
-                if (!title) return;
-
-                $.post("@Url.Action("ConvertToSlug")", { title: title }, function (data) {
-                    $("#Slug").val(data);
-                });
-            }
-
-        });
-        
-
-
+        slug.run('#Title', "#Slug", '#refreshSlug');
     </script>
 
 }

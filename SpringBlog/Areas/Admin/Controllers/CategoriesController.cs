@@ -25,6 +25,7 @@ namespace SpringBlog.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                category.Slug = UrlService.URLFriendly(category.Slug);
                 db.Categories.Add(category);
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "The Category has been created successgully";
@@ -50,6 +51,7 @@ namespace SpringBlog.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                category.Slug = UrlService.URLFriendly(category.Slug);
                 db.Entry(category).State = EntityState.Modified;
                 TempData["SuccessMessage"] = "The Category has been updated successgully";
                 db.SaveChanges();

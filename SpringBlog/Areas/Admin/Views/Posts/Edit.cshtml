@@ -77,43 +77,10 @@
     <!-- /.card -->
 }
 @section scripts{
-    <script>
-        $(function () {
-            $('#Title').change(function () {
-                var title = $(this).val();
-                $.post("@Url.Action("ConverToSlug")", { title: title }, function (data) {
-                    if (!$('#Slug').val()) {
-                        $("#Slug").val(data);
-                        //validation trigger
-                        $('#Slug').focus();
-                        $('#Slug').focusout();
-                        //validation trigger
-                    }
-
-                });
-            });
-            $('#refreshSlug').click(function () {
-                var title = $('#Title').val();
-                $.post("@Url.Action("ConverToSlug")", { title: title }, function (data) {
-                    if (title != null) {
-                        $("#Slug").val(data);
-                    }
-                });
-            });
-            function generateSlug() {
-                var title = $("#Title").val();
-                if (!title) return;
-
-                $.post("@Url.Action("ConvertToSlug")", { title: title }, function (data) {
-                    $("#Slug").val(data);
-                });
-            }
-
-        });
-
-
-
+        <script>
+        slug.run('#Title', "#Slug", '#refreshSlug');
     </script>
+
 
 }
 

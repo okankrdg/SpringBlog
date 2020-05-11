@@ -42,32 +42,12 @@
         </div>
     </div>
 </div>
-@section scripts
+ @section scripts
  {
-    <script>
-        $(function () {
-            $('#CategoryName').change(function () {
-                var catName = $(this).val();
-                $.post("@Url.Action("ConverToSlug")", { catName: catName }, function (data) {
-                    if (!$('#Slug').val()) {
-                        $("#Slug").val(data);
-                        //validation trigger
-                        $('#Slug').focus();
-                        $('#Slug').focusout();
-                        //validation trigger
-                    }
+        <script>
+            slug.run('#CategoryName', "#Slug", '#refreshSlug');
+        </script>
 
-                });
-            });
-            $('#refreshSlug').click(function () {
-                var catName = $('#Slug').val();
-                $.post("@Url.Action("ConverToSlug")", { catName: catName }, function (data) {
-                    if (catName != null) {
-                        $("#Slug").val(data);
-                    }
-                });
-            });
-        })
-    </script>
+    }
 
-}
+
