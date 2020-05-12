@@ -178,7 +178,7 @@
                         <li class="nav-item ">
                             @MenuLink("Dashboard", "Index", "Dashboard", "fas fa-tachometer-alt")
                         </li>
-                        <li class="nav-item has-treeview menu-open">
+                        <li class="nav-item has-treeview">
                             @MenuLink("Categories", "Index", "Categories", "fas fa-table", true)
 
                             <ul class="nav nav-treeview">
@@ -190,7 +190,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview menu-open">
+                        <li class="nav-item has-treeview ">
                             @MenuLink("Posts", "Index", "Posts", "fas fa-file-alt", true)
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
@@ -198,6 +198,14 @@
                                 </li>
                                 <li class="nav-item">
                                     @MenuLink("New Post", "New", "Posts", "fas fa-plus")
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            @MenuLink("Comments", "Index", "Comments", "fas fa-comments", true)
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    @MenuLink("List Comments", "Index", "Comments", "fas fa-list")
                                 </li>
                             </ul>
                         </li>
@@ -236,7 +244,7 @@
             <div class="float-right d-none d-sm-block">
                 <b>Version</b> 3.0.4
             </div>
-            <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+            <strong>Copyright &copy; 2020 <a href="https://github.com/okankrdg/SpringBlog" target="_blank">Spring Blog</a>.</strong> All rights
             reserved.
         </footer>
 
@@ -262,6 +270,7 @@
     <!-- AdminLTE App -->
     <script src="~/Areas/Admin/dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
+    <script src="~/Areas/Admin/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
     <script src="~/Areas/Admin/dist/js/demo.js"></script>
     <script src="~/Areas/Admin/plugins/summernote/summernote-bs4.min.js"></script>
 

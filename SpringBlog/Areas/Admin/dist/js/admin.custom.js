@@ -1,4 +1,8 @@
-﻿$(function () {    $('table[data-table="true"]').DataTable({        "responsive": true,        "autoWidth": false,        "order": [[5, "desc"]]    });
+﻿$(function () {       $('table[data-table="true"]').each(function (index) {
+        var sortOrder = $(this).data("table-sort-order") || "asc";
+        var sortColumn = $(this).data("table-sort-column") || 0;
+        $(this).DataTable({            "order": [[sortColumn, sortOrder]],            "responsive": true,            "autowidth":false        });
+    });
     $('textarea[data-snote="true"]').summernote({
         height: 400
     });

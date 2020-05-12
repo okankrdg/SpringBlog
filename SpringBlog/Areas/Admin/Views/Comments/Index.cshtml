@@ -1,0 +1,78 @@
+﻿@model List<Comment>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Manage Comments</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped" data-table="true"  data-table-sort-order="desc" data-table-sort-column="4">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Comment Content</th>
+                    <th>Author</th>
+                    <th>Post</th>
+                    <th>Creation Time</th>
+                    <th>Confirm</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var comment in Model)
+                {
+                    <tr>
+                        <td>@comment.Id</td>
+                        <td>@comment.Content</td>
+                        <td>@comment.Author.DisplayName</td>
+                        <td>@comment.Post.Title</td>
+                        <td>@comment.CreationTime</td>
+                        <td>
+                            @Html.CheckBox("IsPublished",comment.State==CommentState.Approved,new { data_bootstrap_switch="",
+                           data_off_color="danger",
+                           data_on_color="success",
+                           data_on_text="YES",
+                           data_off_text="NO",
+                           data_comment_id=comment.Id
+                       
+                       })
+                           
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Edit",new {id=comment.Id })" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                            <a href="#" class="btn btn-danger" data-delete-id="@comment.Id" data-delete-name="Comment #@comment.Id" data-delete-action="@Url.Action("delete")"><i class="fas fa-trash"></i></a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <!-- /.card-body -->
+</div>
+@Html.Partial("_DeleteModalPartial")
+@section scripts{
+    <script>
+        $("input[data-bootstrap-switch]").each(function () {
+            var state = $(this).prop('checked');
+            $(this).bootstrapSwitch({
+                state: state,
+                onSwitchChange: function (event, state) {
+                    var isPublished = state;
+                    var commentId = $(this).data("comment-id");
+                    $.post("@Url.Action("StateChange")", { isPublished: isPublished, id: commentId }, function (data) {
+                        //success
+                    }).fail(function (xhr, status, error) {
+                        // error: change back to old state before the event
+                        $(checkbox).bootstrapSwitch("state", !state, true)
+                    });
+                }
+            });
+        });
+    </script>
+    
+    }
