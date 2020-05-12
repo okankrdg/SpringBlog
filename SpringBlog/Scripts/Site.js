@@ -1,4 +1,5 @@
 ﻿$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
     bsCustomFileInput.init();
     $('#frmSearch').submit(function (event) {
         var q = $('#q').val().trim();
@@ -6,5 +7,5 @@
         if (!q) {
             event.preventDefault();
         }
-    })
+    });
 });

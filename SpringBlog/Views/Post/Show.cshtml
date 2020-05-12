@@ -65,14 +65,21 @@
                 <img class="d-flex mr-3 rounded-circle" src="@Url.ProfilePhoto(item.Author.ProfilePhoto)" alt="" width="50" height="50">
                 <div class="media-body">
                     <h5 class="mt-0">@item.Author.DisplayName</h5>
-                    @item.Content 
-                <a href="#" class="btnReply" data-comment-id="@item.Id"> <i class="fas fa-reply"></i> Reply </a>
+                    @item.Content
+                    @if (Request.IsAuthenticated)
+                    {
+                        <a href="#" class="btnReply" data-comment-id="@item.Id"> <i class="fas fa-reply"></i> Reply </a>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Reply", "Login", "Account", new { returnUrl = Request.Url.AbsolutePath }, null)
+                    }
                     <div class="reply-form-wrapper">
 
                     </div>
                     @foreach (var subcomment in item.Children.Where(x => x.State == CommentState.Approved).OrderByDescending(x => x.CreationTime))
                     {
-                        <div class="media mb-4">
+                        <div class="media mb-4 mt-4">
                             <img class="d-flex mr-3 rounded-circle" src="@Url.ProfilePhoto(subcomment.Author.ProfilePhoto)" alt="" width="50" height="50">
                             <div class="media-body">
                                 <h5 class="mt-0">@subcomment.Author.DisplayName</h5>
@@ -98,9 +105,17 @@
             }
           }, 100);
         $(".btnReply").click(function (event) {
-            var comId = $(this).data("comment-id");
             event.preventDefault();
+            if ($(this).next(".reply-form-wrapper").html()) {
+                $(this).next(".reply-form-wrapper").html("");
+                return;
+            }
+            var comId = $(this).data("comment-id");
             var frm = $("#leave-a-comment form").clone();
+            //change style of the clone
+            frm.addClass("d-flex justify-content-end");
+            frm.find(".form-group").addClass("flex-fill mb-0");
+            frm.find("button").addClass("btn-sm align-self-end mr-1");
             frm.find("#ParentId").val(comId);
             $(".reply-form-wrapper").html("");
             $(this).next(".reply-form-wrapper").html(frm)
