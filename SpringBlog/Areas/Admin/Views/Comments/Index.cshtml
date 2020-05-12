@@ -1,6 +1,6 @@
 ﻿@model List<Comment>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Comment Manage";
 }
 
 <div class="card">
@@ -16,7 +16,7 @@
                     <th>Comment Content</th>
                     <th>Author</th>
                     <th>Post</th>
-                    <th>Creation Time</th>
+                    <th>Time</th>
                     <th>Confirm</th>
                     <th>Actions</th>
                 </tr>
@@ -26,10 +26,10 @@
                 {
                     <tr>
                         <td>@comment.Id</td>
-                        <td>@comment.Content</td>
+                        <td>@comment.Content (@comment.Children.Count)</td>
                         <td>@comment.Author.DisplayName</td>
                         <td>@comment.Post.Title</td>
-                        <td>@comment.CreationTime</td>
+                        <td>@comment.CreationTime.Value.ToString("dd MMMM yyyy HH:mm")</td>
                         <td>
                             @Html.CheckBox("IsPublished",comment.State==CommentState.Approved,new { data_bootstrap_switch="",
                            data_off_color="danger",

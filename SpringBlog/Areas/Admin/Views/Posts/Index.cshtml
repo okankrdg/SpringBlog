@@ -17,6 +17,7 @@
                     <th>Title</th>
                     <th>Author</th>
                     <th>Category</th>
+                    <th>Comment Count</th>
                     <th>Creation Time</th>
                     <th>Modifacation Time</th>
                     
@@ -32,6 +33,7 @@
                         <td>@art.Title</td>
                         <td>@art.Author.DisplayName</td>
                         <td>@art.Category.CategoryName</td>
+                        <td>@art.Comments.Count()</td>
                         <td>@art.CreationTime.Value</td>
                         <td>@art.ModifacationTime.Value</td>
                         <td>

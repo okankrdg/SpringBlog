@@ -16,11 +16,11 @@
         <!-- ./col -->
         <div class="col-lg-3 col-6">
             <!-- small card -->
-            @SmallBox(Model.UserCount.ToString(), "Users", "#", "bg-warning", "fas fa-users")
+            @SmallBox(Model.CommentCount.ToString(), "Comments", Url.Action("Index","Comments"), "bg-info", "fas fa-comments")
         </div>
         <div class="col-lg-3 col-6">
             <!-- small card -->
-            @SmallBox(Model.AdminCount.ToString(), "Admins", "#", "bg-danger", "fas fa-user-secret")
+            @SmallBox(Model.UserCount.ToString(), "Users", "#", "bg-warning", "fas fa-user-secret")
         </div>
         <!-- ./col -->
     </div>

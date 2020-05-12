@@ -21,6 +21,12 @@
 
         <hr>
 
+        <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Paylaş</a></div>
+        <a class="twitter-share-button"
+           href="https://twitter.com/intent/tweet?text=Hello%20world"
+           data-size="large">
+            Tweet
+        </a>
         <!-- Preview Image -->
         @if (!string.IsNullOrEmpty(Model.Post.PhotoPath))
         {
@@ -32,7 +38,7 @@
 
         <!-- Comments Form -->
         <div class="card my-4" id="leave-a-comment">
-            <h5 class="card-header" >Leave a Comment:</h5>
+            <h5 class="card-header">Leave a Comment:</h5>
             <div class="card-body">
                 @if (Request.QueryString["commmetSuccess"] == "True")
                 {
@@ -59,41 +65,44 @@
             </div>
         </div>
 
-        @foreach (var item in Model.Post.Comments.Where(x => x.State == CommentState.Approved && x.ParentId == null).OrderByDescending(x => x.CreationTime))
-        {
-            <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="@Url.ProfilePhoto(item.Author.ProfilePhoto)" alt="" width="50" height="50">
-                <div class="media-body">
-                    <h5 class="mt-0">@item.Author.DisplayName</h5>
-                    @item.Content
-                    @if (Request.IsAuthenticated)
-                    {
-                        <a href="#" class="btnReply" data-comment-id="@item.Id"> <i class="fas fa-reply"></i> Reply </a>
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Reply", "Login", "Account", new { returnUrl = Request.Url.AbsolutePath }, null)
-                    }
-                    <div class="reply-form-wrapper">
+        <div id="comments">
+            @foreach (var item in Model.Post.Comments.Where(x => x.State == CommentState.Approved && x.ParentId == null).OrderByDescending(x => x.CreationTime))
+            {
+                <div class="media mb-4">
+                    <img class="d-flex mr-3 rounded-circle" src="@Url.ProfilePhoto(item.Author.ProfilePhoto)" alt="" width="50" height="50">
+                    <div class="media-body">
+                        <h5 class="mt-0">@item.Author.DisplayName</h5>
+                        @item.Content
+                        @if (Request.IsAuthenticated)
+                        {
+                            <a href="#" class="btnReply" data-comment-id="@item.Id"> <i class="fas fa-reply"></i> Reply </a>
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Reply", "Login", "Account", new { returnUrl = Request.Url.AbsolutePath }, null)
+                        }
+                        <div class="reply-form-wrapper">
 
-                    </div>
-                    @foreach (var subcomment in item.Children.Where(x => x.State == CommentState.Approved).OrderByDescending(x => x.CreationTime))
-                    {
-                        <div class="media mb-4 mt-4">
-                            <img class="d-flex mr-3 rounded-circle" src="@Url.ProfilePhoto(subcomment.Author.ProfilePhoto)" alt="" width="50" height="50">
-                            <div class="media-body">
-                                <h5 class="mt-0">@subcomment.Author.DisplayName</h5>
-                                @subcomment.Content
-                            </div>
                         </div>
-                    }
+                        @foreach (var subcomment in item.Children.Where(x => x.State == CommentState.Approved).OrderByDescending(x => x.CreationTime))
+                        {
+                            <div class="media mb-4 mt-4">
+                                <img class="d-flex mr-3 rounded-circle" src="@Url.ProfilePhoto(subcomment.Author.ProfilePhoto)" alt="" width="50" height="50">
+                                <div class="media-body">
+                                    <h5 class="mt-0">@subcomment.Author.DisplayName</h5>
+                                    @subcomment.Content
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="mr-auto text-muted">
+                        <i class="fas fa-clock"></i>
+                        @item.CreationTime.Value.ToString("dd.MM.yyyy HH:mm")
+                    </div>
                 </div>
-                <div class="mr-auto">
-                    @item.CreationTime.Value.ToString("dd.MM.yyyy HH:mm")
-                </div>
-            </div>
-            <hr />
-        }
+                <hr />
+            }
+        </div>
         <!-- Single Comment -->
 
     </div>
@@ -102,6 +111,11 @@
           setTimeout(function () {
             if (location.hash == "#leave-a-comment") {
                 window.scrollTo(0, $("#leave-a-comment").offset().top - 65);
+            }
+          }, 100);
+           setTimeout(function () {
+            if (location.hash == "#comment") {
+                window.scrollTo(0, $("#comment").offset().top - 10);
             }
           }, 100);
         $(".btnReply").click(function (event) {

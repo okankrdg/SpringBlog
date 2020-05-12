@@ -17,6 +17,8 @@
 
     <link href="~/Content/croppie.min.css" rel="stylesheet" />
     <link href="~/Content/fontawesome-all.min.css" rel="stylesheet" />
+    <link rel="canonical"
+          href="/web/tweet-button">
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -53,6 +55,7 @@
                                 <div class="dropdown-menu">
                                     @Html.ActionLink("Categories", "Index", "Categories", new { area = "admin" }, new { @class = "dropdown-item" })
                                     @Html.ActionLink("Posts", "Index", "Posts", new { area = "admin" }, new { @class = "dropdown-item" })
+                                    @Html.ActionLink("Comments", "Index", "Comments", new { area = "admin" }, new { @class = "dropdown-item" })
                                 </div>
                             </div>
                         </li>
@@ -81,7 +84,7 @@
                 <div class="card my-4">
                     <h5 class="card-header">Search</h5>
                     <div class="card-body">
-                        @using (Html.BeginForm("Index", "Home", new {cid="" },FormMethod.Get, new { id = "frmSearch" }))
+                        @using (Html.BeginForm("Index", "Home", new { cid = "" }, FormMethod.Get, new { id = "frmSearch" }))
                         {
                             <div class="input-group">
                                 @Html.TextBox("q", null, new { @class = "form-control", placeholder = "Search for..." })
@@ -136,6 +139,7 @@
     <script src="~/Areas/Admin/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
     <script src="~/Scripts/croppie.min.js"></script>
     <script src="~/Scripts/Site.js"></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/tr_TR/sdk.js#xfbml=1&version=v7.0"></script>
     @RenderSection("scripts", false)
 </body>
 

@@ -38,7 +38,16 @@
             </div>
             <a href="@Url.Action("Show","Post",new {id=item.Id, slug=item.Slug})" class="btn btn-primary">Read More &rarr;</a>
         </div>
-        <div class="card-footer text-muted">
+        <div class="card-footer text-muted clearfix">
+            <div class="float-right">
+                @{ 
+                    var commentCount = item.Comments.Count(x => x.State == CommentState.Approved);
+                }
+                <i class="fas fa-comments"></i>
+                <a href="@Url.Action("Show","Post",new {id=item.Id, slug=item.Slug})#comments">
+                    @commentCount Comment@(commentCount == 1 ? "s" : "")
+                </a>
+            </div>
             Posted on @item.CreationTime.Value.ToShortDateString() by
             <a href="#">@(item.Author.DisplayName ?? "Anonymous")</a>
         </div>
