@@ -216,6 +216,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EmailServiceHelpers.cs" />
     <Compile Include="Helpers\IdentityHelpers.cs" />
     <Compile Include="Helpers\ImageUtiltes.cs" />
     <Compile Include="Helpers\PostImageAttribute.cs" />
@@ -1929,6 +1930,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\brands.css" />
     <Content Include="Content\brands.min.css" />
+    <Content Include="Content\croppie.css" />
+    <Content Include="Scripts\croppie.js" />
     <Content Include="Content\croppie.min.css" />
     <Content Include="Content\fontawesome-all.css" />
     <Content Include="Content\fontawesome-all.min.css" />
@@ -2084,6 +2087,8 @@
     <Content Include="Areas\Admin\Views\Posts\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Posts\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Comments\Index.cshtml" />
+    <Content Include="Content\croppie.min.css.map" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

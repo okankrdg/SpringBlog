@@ -15,21 +15,28 @@ namespace SpringBlog
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap", "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js").Include(
                       "~/Scripts/bootstrap.bundle.js"));
+            bundles.Add(new ScriptBundle("~/bundles/croppie", "https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.4/croppie.min.js").Include(
+                        "~/Scripts/croppie.js"));
+            bundles.Add(new ScriptBundle("~/bundles/bs-custom-file", "https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js").Include(
+                       "~/Areas/Admin/plugins/bs-custom-file-input/bs-custom-file-input.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/site")
+                 .Include("~/Scripts/Site.js"));
 
             bundles.Add(new StyleBundle("~/Content/bootstrapcss", "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css").Include(
-                      "~/Content/bootstrap.css")); 
-
+                      "~/Content/bootstrap.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                        "~/Content/Site.css"));
+            bundles.Add(new StyleBundle("~/Content/croppie", "https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.4/croppie.min.css").Include(
+                     "~/Content/croppie.css"));
+            bundles.Add(new StyleBundle("~/Content/fontawesome", "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css").Include(
+                  "~/Content/fontawesome-all.css"));
 
             //normalde yazmaya gerek yok, test aşamasında kullanılabilir.
-            #if DEBUG
-               BundleTable.EnableOptimizations = false;
+#if DEBUG
+            BundleTable.EnableOptimizations = false;
             #else
               BundleTable.EnableOptimizations = true;
             #endif
